@@ -1,73 +1,58 @@
-# Welcome to your Lovable project
+# MealCompass – AI-Powered Personalized Meal Planner
 
-## Project info
+MealCompass is a web app that generates affordable, customized meal plans for anyone—patients, families, fitness enthusiasts, and healthy individuals who want to prevent disease. 
 
-**URL**: https://lovable.dev/projects/1f99e2bd-f263-4ef9-8108-25cf706e40a7
+It uses AI to recommend nutritious meals tailored to users’ health conditions, dietary preferences, location, and budget.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🌟 Features
 
-**Use Lovable**
+- Budget-friendly meal plans for any health goal
+- Supports diet types: Any, Veg, Non-Veg, Vegan, Jain
+- Dynamic disease selection (e.g., diabetes, pregnancy, recovery)
+- Allergy filtering, including "Nothing"
+- Real-time ingredient pricing and availability
+- Seasonal ingredient recommendations
+- Recipe swap options
+- Family mode with portion control
+- Downloadable grocery lists
+- Progress tracking
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1f99e2bd-f263-4ef9-8108-25cf706e40a7) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠️ Tech Stack
 
-**Use your preferred IDE**
+- **Frontend:** React.js, Tailwind CSS
+- **Backend:** Node.js, Express
+- **AI:** Gemini API
+- **Database:** MongoDB
+- **Utilities:** Geolocation and currency conversion APIs, PDF generation
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🚀 Getting Started
 
-Follow these steps:
+1. Clone the repo
+2. Install dependencies
+3. Set up environment variables for API keys
+4. Run the development server
+5. Build for production as needed
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 💡 Inspiration
 
-# Step 3: Install the necessary dependencies.
-npm i
+We built MealCompass to make healthy eating accessible for everyone, regardless of budget or health challenges. Proper nutrition can prevent and manage disease, reduce stress, and improve quality of life.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+---
 
-**Edit a file directly in GitHub**
+## 🙌 Contributing
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Pull requests and suggestions are welcome!
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 📄 License
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/1f99e2bd-f263-4ef9-8108-25cf706e40a7) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+MIT License
