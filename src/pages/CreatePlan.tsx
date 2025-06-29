@@ -292,9 +292,16 @@ const CreatePlan = () => {
                   <CollapsibleContent className="p-4 border-t space-y-4">
                     {Object.entries(dayPlan.meals).map(([mealType, meal]: [string, any]) => (
                       <div key={mealType} className="bg-white p-4 rounded-lg border">
-                        <h4 className="font-semibold text-meal-primary capitalize mb-2">{mealType}</h4>
+                        <h4 className="font-semibold text-meal-primary capitalize mb-2">
+                          {mealType === 'snack' ? 'Optional Snack' : mealType}
+                        </h4>
                         <h5 className="font-medium text-meal-text-dark">{meal.dish}</h5>
                         <p className="text-meal-subtext text-sm mb-2">{meal.description}</p>
+                        {meal.ingredients && (
+                          <p className="text-xs text-meal-subtext mb-2">
+                            <strong>Ingredients:</strong> {meal.ingredients.join(', ')}
+                          </p>
+                        )}
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-sm">
                           <span>Calories: {meal.nutrition.calories}</span>
                           <span>Carbs: {meal.nutrition.carbs}g</span>
@@ -309,10 +316,10 @@ const CreatePlan = () => {
               ))}
               
               <div className="mt-6 p-4 bg-meal-green-light rounded-lg">
-                <h3 className="text-lg font-semibold text-meal-text-dark mb-3">Grocery List</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <h3 className="text-lg font-semibold text-meal-text-dark mb-3">Consolidated Grocery List</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {generatedPlan.groceryList.map((item: any, index: number) => (
-                    <div key={index} className="flex justify-between">
+                    <div key={index} className="flex justify-between border-b pb-1">
                       <span>{item.item} ({item.quantity})</span>
                       <span className="font-medium">₹{item.price}</span>
                     </div>
@@ -320,8 +327,14 @@ const CreatePlan = () => {
                 </div>
                 <div className="mt-4 pt-4 border-t border-meal-primary">
                   <div className="flex justify-between text-lg font-semibold text-meal-text-dark">
-                    <span>Weekly Estimated Cost:</span>
-                    <span className="text-meal-primary">₹{generatedPlan.totalCost}</span>
+                    <span>Total Grocery Cost:</span>
+                    <span className="text-meal-primary">
+                      ₹{generatedPlan.groceryList.reduce((sum: number, item: any) => sum + item.price, 0)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm text-meal-subtext mt-1">
+                    <span>Weekly Budget:</span>
+                    <span>₹{generatedPlan.totalCost}</span>
                   </div>
                 </div>
               </div>
