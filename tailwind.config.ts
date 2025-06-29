@@ -18,7 +18,24 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'poppins': ['Poppins', 'sans-serif'],
+				'roboto': ['Roboto', 'sans-serif'],
+			},
 			colors: {
+				// MealCompass Custom Colors
+				'meal-primary': '#4CAF50',
+				'meal-accent': '#FF9800',
+				'meal-teal': '#009688',
+				'meal-light-bg': '#F9F9F9',
+				'meal-text-dark': '#212121',
+				'meal-subtext': '#616161',
+				'meal-error': '#F44336',
+				'meal-success': '#8BC34A',
+				'meal-green-light': '#F1F8E9',
+				'meal-green-lighter': '#E8F5E9',
+				
+				// Keep existing shadcn colors
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -84,11 +101,22 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(10px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.3s ease-out'
 			}
 		}
 	},
