@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Plus, Download, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { generateMealPlan } from '@/services/geminiService';
 import { toast } from 'sonner';
+import jsPDF from 'jspdf';
 
 const CreatePlan = () => {
   const [budget, setBudget] = useState([2000]);
@@ -49,6 +49,103 @@ const CreatePlan = () => {
         : [...allergies.filter(a => a !== 'Nothing'), allergy];
       setAllergies(newAllergies);
     }
+  };
+
+  const downloadPDF = () => {
+    if (!generatedPlan) return;
+
+    const pdf = new jsPDF();
+    let yPosition = 20;
+    const pageHeight = pdf.internal.pageSize.height;
+    const margin = 20;
+
+    // Title
+    pdf.setFontSize(20);
+    pdf.setFont(undefined, 'bold');
+    pdf.text('Your Personalized Meal Plan', margin, yPosition);
+    yPosition += 15;
+
+    // Plan details
+    pdf.setFontSize(12);
+    pdf.setFont(undefined, 'normal');
+    pdf.text(`Family Members: ${familyMembers}`, margin, yPosition);
+    yPosition += 8;
+    pdf.text(`Location: ${location}`, margin, yPosition);
+    yPosition += 8;
+    pdf.text(`Budget: ₹${budget[0]}`, margin, yPosition);
+    yPosition += 8;
+    pdf.text(`Diet Type: ${dietType}`, margin, yPosition);
+    yPosition += 8;
+    pdf.text(`Health Goal: ${healthGoal}`, margin, yPosition);
+    yPosition += 15;
+
+    // Days
+    generatedPlan.days.forEach((dayPlan: any) => {
+      // Check if we need a new page
+      if (yPosition > pageHeight - 50) {
+        pdf.addPage();
+        yPosition = 20;
+      }
+
+      pdf.setFontSize(14);
+      pdf.setFont(undefined, 'bold');
+      pdf.text(`Day ${dayPlan.day}`, margin, yPosition);
+      yPosition += 10;
+
+      Object.entries(dayPlan.meals).forEach(([mealType, meal]: [string, any]) => {
+        if (yPosition > pageHeight - 30) {
+          pdf.addPage();
+          yPosition = 20;
+        }
+
+        pdf.setFontSize(12);
+        pdf.setFont(undefined, 'bold');
+        pdf.text(`${mealType.charAt(0).toUpperCase() + mealType.slice(1)}:`, margin, yPosition);
+        yPosition += 6;
+
+        pdf.setFont(undefined, 'normal');
+        pdf.text(`${meal.dish}`, margin + 5, yPosition);
+        yPosition += 5;
+        
+        const descriptionLines = pdf.splitTextToSize(meal.description, 160);
+        pdf.text(descriptionLines, margin + 5, yPosition);
+        yPosition += descriptionLines.length * 5;
+
+        pdf.text(`Calories: ${meal.nutrition.calories} | Protein: ${meal.nutrition.protein}g | Cost: ₹${meal.cost}`, margin + 5, yPosition);
+        yPosition += 10;
+      });
+
+      yPosition += 5;
+    });
+
+    // Grocery List
+    if (yPosition > pageHeight - 100) {
+      pdf.addPage();
+      yPosition = 20;
+    }
+
+    pdf.setFontSize(14);
+    pdf.setFont(undefined, 'bold');
+    pdf.text('Grocery List', margin, yPosition);
+    yPosition += 10;
+
+    pdf.setFontSize(10);
+    pdf.setFont(undefined, 'normal');
+    generatedPlan.groceryList.forEach((item: any) => {
+      if (yPosition > pageHeight - 20) {
+        pdf.addPage();
+        yPosition = 20;
+      }
+      pdf.text(`${item.item} (${item.quantity}) - ₹${item.price}`, margin, yPosition);
+      yPosition += 5;
+    });
+
+    yPosition += 5;
+    pdf.setFont(undefined, 'bold');
+    pdf.text(`Total Cost: ₹${generatedPlan.groceryList.reduce((sum: number, item: any) => sum + item.price, 0)}`, margin, yPosition);
+
+    pdf.save('meal-plan.pdf');
+    toast.success('PDF downloaded successfully!');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -276,7 +373,10 @@ const CreatePlan = () => {
             <CardHeader>
               <CardTitle className="text-2xl font-poppins text-meal-text-dark flex justify-between items-center">
                 Your Personalized Meal Plan
-                <Button className="bg-meal-primary hover:bg-green-600 text-white">
+                <Button 
+                  onClick={downloadPDF}
+                  className="bg-meal-primary hover:bg-green-600 text-white"
+                >
                   <Download size={16} className="mr-2" />
                   Download PDF
                 </Button>
