@@ -17,9 +17,9 @@ const Navbar = () => {
             </h1>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Moved to right */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
+            <div className="flex items-baseline space-x-8">
               <Link
                 to="/"
                 className="text-meal-text-dark hover:text-meal-teal px-3 py-2 text-sm font-medium font-roboto transition-colors duration-200 border-b-2 border-transparent hover:border-meal-accent"
@@ -45,13 +45,6 @@ const Navbar = () => {
                 Contact
               </Link>
             </div>
-          </div>
-
-          {/* Login Button */}
-          <div className="hidden md:block">
-            <button className="bg-meal-accent hover:bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-medium transition-colors duration-200 shadow-sm hover:shadow-md">
-              Login / Sign Up
-            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -97,9 +90,6 @@ const Navbar = () => {
               >
                 Contact
               </Link>
-              <button className="w-full mt-4 bg-meal-accent hover:bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-medium transition-colors duration-200">
-                Login / Sign Up
-              </button>
             </div>
           </div>
         )}

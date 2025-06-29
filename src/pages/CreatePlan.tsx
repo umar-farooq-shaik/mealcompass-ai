@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { generateMealPlan } from '@/services/geminiService';
+import { toast } from 'sonner';
 
 const CreatePlan = () => {
   const [budget, setBudget] = useState([2000]);
@@ -53,44 +55,27 @@ const CreatePlan = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      const mockPlan = {
-        days: [
-          {
-            day: 1,
-            meals: {
-              breakfast: {
-                dish: "Vegetable Upma",
-                description: "Nutritious semolina porridge with mixed vegetables",
-                nutrition: { calories: 320, carbs: 45, protein: 8, fat: 12 },
-                cost: 25
-              },
-              lunch: {
-                dish: "Dal Rice with Vegetables",
-                description: "Traditional lentil curry with steamed rice and seasonal vegetables",
-                nutrition: { calories: 450, carbs: 65, protein: 18, fat: 8 },
-                cost: 40
-              },
-              dinner: {
-                dish: "Roti with Paneer Curry",
-                description: "Whole wheat flatbread with cottage cheese curry",
-                nutrition: { calories: 520, carbs: 48, protein: 25, fat: 22 },
-                cost: 60
-              }
-            }
-          }
-        ],
-        totalCost: budget[0],
-        groceryList: [
-          { item: "Rice", quantity: "2kg", price: 120 },
-          { item: "Lentils", quantity: "1kg", price: 180 },
-          { item: "Vegetables", quantity: "3kg", price: 200 }
-        ]
+    try {
+      const mealPlanRequest = {
+        familyMembers,
+        location,
+        budget: budget[0],
+        dietType,
+        allergies,
+        diseases,
+        healthGoal,
+        planDuration
       };
-      setGeneratedPlan(mockPlan);
+
+      const plan = await generateMealPlan(mealPlanRequest);
+      setGeneratedPlan(plan);
+      toast.success('Meal plan generated successfully!');
+    } catch (error) {
+      console.error('Error generating meal plan:', error);
+      toast.error('Failed to generate meal plan. Please try again.');
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
   };
 
   return (
@@ -280,7 +265,7 @@ const CreatePlan = () => {
               disabled={isLoading}
               className="w-full bg-meal-accent hover:bg-orange-600 text-white text-lg py-6 rounded-lg font-medium transition-colors"
             >
-              {isLoading ? 'Generating Your Plan...' : 'Generate Meal Plan'}
+              {isLoading ? 'Generating Your Plan with Gemini AI...' : 'Generate Meal Plan'}
             </Button>
           </form>
         </Card>
